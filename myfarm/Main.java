@@ -4,6 +4,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to MyFarm!");
 
+        /** CODE TO SHOW IN TERMINAL CROPS PLANTED*/
+
     }
     //initializing player
     private FarmerDetails farmer;

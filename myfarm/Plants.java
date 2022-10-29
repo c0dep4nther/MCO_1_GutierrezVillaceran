@@ -9,24 +9,33 @@ public class Plants {
     private int fertilizerNeeded;
     private int fertilizerBonus;
     private int harvestCost;
-    private int produceCountMax;
+    private int maxProduce;
     private int seedCost;
     private int sellPrice;
 
-    public Plants(String name, String type, float harvestTime, int waterNeeded, int waterBonus,
-                  int fertilizerNeeded, int fertilizerBonus, int harvestCost, int produceCountMax,
+    public Plants(String name, String type, float harvestTime, int waterNeeded,
+                  int fertilizerNeeded, int harvestCost, int maxProduce,
                   int seedCost, int sellPrice) {
         this.name = name;
         this.type = type;
         this.harvestTime = harvestTime;
         this.waterNeeded = waterNeeded;
-        this.waterBonus=waterBonus;
         this.fertilizerNeeded = fertilizerNeeded;
-        this.fertilizerBonus=fertilizerBonus;
         this.harvestCost = harvestCost;
-        this.produceCountMax = produceCountMax;
+        this.maxProduce = maxProduce;
         this.seedCost = seedCost;
         this.sellPrice = sellPrice;
+
+        switch (name) {
+            case "Turnip", "Carrot", "Rose" -> {
+                waterBonus = 2;
+                fertilizerBonus = 1;
+            }
+            case "Stargazer" -> {
+                waterBonus = 3;
+                fertilizerBonus = 1;
+            }
+        }
     }
 
 //    getters
@@ -54,8 +63,8 @@ public class Plants {
         return harvestCost;
     }
 
-    public int getProduceCountMax() {
-        return produceCountMax;
+    public int getMaxProduce() {
+        return maxProduce;
     }
 
     public int getSeedCost() {
@@ -95,8 +104,8 @@ public class Plants {
         this.harvestCost = harvestCost;
     }
 
-    public void setProduceCountMax(int produceCountMax) {
-        this.produceCountMax = produceCountMax;
+    public void setMaxProduce(int maxProduce) {
+        this.maxProduce = maxProduce;
     }
 
     public void setSeedCost(int seedCost) {
@@ -112,6 +121,6 @@ public class Plants {
         return "myfarm.Plants [name=" + name + ", type=" + type + ", harvestTime=" +
                 harvestTime + ", waterNeeded=" + waterNeeded + ", fertilizerNeeded=" +
                 fertilizerNeeded + ", harvestCost=" + harvestCost + ", produceCountMax=" +
-                produceCountMax + ", seedCost=" + seedCost + ", sellPrice=" + sellPrice + "]";
+                maxProduce + ", seedCost=" + seedCost + ", sellPrice=" + sellPrice + "]";
     }
 }

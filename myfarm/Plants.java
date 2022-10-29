@@ -3,16 +3,18 @@ package myfarm;
 public class Plants {
     private String name;
     private String type;
-    private int harvestTime;
+    private float harvestTime;
     private int waterNeeded;
+    private int waterBonus;
     private int fertilizerNeeded;
+    private int fertilizerBonus;
     private int harvestCost;
-    private int produceCount;
+    private int maxProduce;
     private int seedCost;
     private int sellPrice;
 
-    public Plants(String name, String type, int harvestTime, int waterNeeded,
-                  int fertilizerNeeded, int harvestCost, int produceCount,
+    public Plants(String name, String type, float harvestTime, int waterNeeded,
+                  int fertilizerNeeded, int harvestCost, int maxProduce,
                   int seedCost, int sellPrice) {
         this.name = name;
         this.type = type;
@@ -20,9 +22,20 @@ public class Plants {
         this.waterNeeded = waterNeeded;
         this.fertilizerNeeded = fertilizerNeeded;
         this.harvestCost = harvestCost;
-        this.produceCount = produceCount;
+        this.maxProduce = maxProduce;
         this.seedCost = seedCost;
         this.sellPrice = sellPrice;
+
+        switch (name) {
+            case "Turnip", "Carrot", "Rose" -> {
+                waterBonus = 2;
+                fertilizerBonus = 1;
+            }
+            case "Stargazer" -> {
+                waterBonus = 3;
+                fertilizerBonus = 1;
+            }
+        }
     }
 
 //    getters
@@ -34,7 +47,7 @@ public class Plants {
         return type;
     }
 
-    public int getHarvestTime() {
+    public float getHarvestTime() {
         return harvestTime;
     }
 
@@ -50,8 +63,8 @@ public class Plants {
         return harvestCost;
     }
 
-    public int getProduceCount() {
-        return produceCount;
+    public int getMaxProduce() {
+        return maxProduce;
     }
 
     public int getSeedCost() {
@@ -62,7 +75,11 @@ public class Plants {
         return sellPrice;
     }
 
-//    setters
+    public int getWaterBonus() {return waterBonus;}
+
+    public int getFertilizerBonus() {return fertilizerBonus;}
+
+    //    setters
     public void setName(String name) {
         this.name = name;
     }
@@ -71,24 +88,24 @@ public class Plants {
         this.type = type;
     }
 
-    public void setHarvestTime(int harvestTime) {
+    public void setHarvestTime(float harvestTime) {
         this.harvestTime = harvestTime;
     }
 
     public void setWaterNeeded(int waterNeeded) {
         this.waterNeeded = waterNeeded;
     }
-
+    public void setWaterBonus(int waterBonus) {this.waterBonus = waterBonus;}
     public void setFertilizerNeeded(int fertilizerNeeded) {
         this.fertilizerNeeded = fertilizerNeeded;
     }
-
+    public void setFertilizerBonus(int fertilizerBonus) {this.fertilizerBonus = fertilizerBonus;}
     public void setHarvestCost(int harvestCost) {
         this.harvestCost = harvestCost;
     }
 
-    public void setProduceCount(int produceCount) {
-        this.produceCount = produceCount;
+    public void setMaxProduce(int maxProduce) {
+        this.maxProduce = maxProduce;
     }
 
     public void setSeedCost(int seedCost) {
@@ -103,7 +120,7 @@ public class Plants {
     public String toString() {
         return "myfarm.Plants [name=" + name + ", type=" + type + ", harvestTime=" +
                 harvestTime + ", waterNeeded=" + waterNeeded + ", fertilizerNeeded=" +
-                fertilizerNeeded + ", harvestCost=" + harvestCost + ", produceCount=" +
-                produceCount + ", seedCost=" + seedCost + ", sellPrice=" + sellPrice + "]";
+                fertilizerNeeded + ", harvestCost=" + harvestCost + ", produceCountMax=" +
+                maxProduce + ", seedCost=" + seedCost + ", sellPrice=" + sellPrice + "]";
     }
 }

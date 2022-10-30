@@ -52,4 +52,6 @@ public enum RegisterFarmer {
     public int getBuying() {
         return buying;
     }
+
+
 }

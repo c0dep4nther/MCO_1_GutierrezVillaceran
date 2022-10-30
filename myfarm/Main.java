@@ -3,13 +3,16 @@ package myfarm;
 import myfarm.board.Board;
 import myfarm.board.Tile;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
     public static final Scanner input = new Scanner(System.in);
+    public static String register="";
 
     // using a list to store the crops
     public static final List<Plants> seedList = new ArrayList<>(Arrays.asList(
@@ -28,6 +31,8 @@ public class Main {
     ));
 
     public static void main(String[] args) {
+
+
         System.out.println("Welcome to MyFarm!");
 
         /** CODE TO SHOW IN TERMINAL CROPS PLANTED*/
@@ -35,6 +40,7 @@ public class Main {
         FarmerDetails player = new FarmerDetails();
         // create a new board
         Board gameBoard = new Board();
+
 
         // print the board (key, value) in 10x5
         for (int i = 1; i <= 50; i++) {
@@ -44,6 +50,102 @@ public class Main {
             }
         }
 
+        /** CODE TO SHOW AND UPDATE FARMER'S TYPE*/
+        //display table of benefits of farmer types
+        displayFarmerType();
+
+        //Change farmer's registry
+        //Checks eligibility for Honorable Farmer registration
+        if((player.getFarmerLevel()>=RegisterFarmer.HONORABLE.getLevelRequirement())
+                &&(player.getFarmerStatus()==RegisterFarmer.DISTINGUISHED)){
+
+            System.out.println();
+            System.out.println("ELIGIBLE FOR HONORABLE FARMER REGISTRATION");
+
+            //asks user input whether to update farmer type
+            System.out.println("Would you like to register for Honorable Farmer? Y(yes) N(no)");
+            register=input.nextLine();
+            if(register.equals("Y")||register.equals("y")) {
+
+                //checks if player has enough money to update registration
+                if (player.getObjectCoins() >= RegisterFarmer.HONORABLE.getRegistrationFee()) {
+                    player.setFarmerStatus(RegisterFarmer.HONORABLE);
+
+                    //prints updated farmer type
+                    System.out.println("Updated Farmer Type: " + player.getFarmerStatus().getFarmerType());
+
+                    //Subtracts registration fee from player's money
+                    player.setObjectCoins(player.getObjectCoins() - RegisterFarmer.HONORABLE.getRegistrationFee());
+                    System.out.println("TEMP: Updated Money count " + player.getObjectCoins());
+
+                } else {
+                    System.out.println("Not enough money!");
+                    System.out.println("Come back again next time!");
+                }
+            }
+        }
+        //Checks eligibility for Distinguished Farmer registration
+        else if(player.getFarmerLevel()>=RegisterFarmer.DISTINGUISHED.getLevelRequirement()
+                &&(player.getFarmerStatus()==RegisterFarmer.REGISTERED)){
+                //insert code for checking money
+            System.out.println();
+            System.out.println("ELIGIBLE FOR DISTINGUISHED FARMER REGISTRATION");
+
+            //asks user input whether to update farmer type
+            System.out.println("Would you like to register for Distinguished Farmer? Y(yes) N(no)");
+            register=input.nextLine();
+            if(register.equals("Y")||register.equals("y")) {
+
+                //checks if player has enough money to update registration
+                if (player.getObjectCoins() >= RegisterFarmer.DISTINGUISHED.getRegistrationFee()) {
+                    player.setFarmerStatus(RegisterFarmer.DISTINGUISHED);
+
+                    //prints updated farmer type
+                    System.out.println("Updated Farmer Type: " + player.getFarmerStatus().getFarmerType());
+
+                    //Subtracts registration fee from player's money
+                    player.setObjectCoins(player.getObjectCoins() - RegisterFarmer.DISTINGUISHED.getRegistrationFee());
+                    System.out.println("TEMP: Updated Money count " + player.getObjectCoins());
+                } else {
+                    System.out.println("Not enough money!");
+                    System.out.println("Come back again next time!");
+                }
+            }
+        }
+
+        //Checks eligibility for Registered Farmer registration
+        else if (player.getFarmerLevel()>=RegisterFarmer.REGISTERED.getLevelRequirement()
+                &&(player.getFarmerStatus()==RegisterFarmer.FARMER)){
+
+            System.out.println();
+            //insert code for checking money
+            System.out.println("ELIGIBLE FOR REGISTERED FARMER REGISTRATION");
+
+            //asks user input whether to update farmer type
+            System.out.println("Would you like to register for Registered Farmer? Y(yes) N(no)");
+            register=input.nextLine();
+            if(register.equals("Y")||register.equals("y")){
+
+                //checks if player has enough money to update registration
+                if(player.getObjectCoins()>=RegisterFarmer.REGISTERED.getRegistrationFee()){
+                    player.setFarmerStatus(RegisterFarmer.REGISTERED);
+
+                    //prints updated farmer type
+                    System.out.println("Updated Farmer Type: "+player.getFarmerStatus().getFarmerType());
+
+                    //Subtracts registration fee from player's money
+                    player.setObjectCoins(player.getObjectCoins()-RegisterFarmer.REGISTERED.getRegistrationFee());
+                    System.out.println("TEMP: Updated Money count "+player.getObjectCoins());
+                }
+                else{
+                    System.out.println("Not enough money!");
+                    System.out.println("Come back again next time!");
+                }
+            }
+            else{
+                System.out.println("Come back again next time!");
+            }
+        }
         // ask player to choose a tile
 
 //        // loop through board and access the tile object
@@ -51,6 +153,15 @@ public class Main {
 //            // get the tile object
 //            Tile tile = gameBoard.getTiles().get(i);
 //        }
+    }
+    public static void displayFarmerType(){
+        System.out.println();
+        System.out.println();
+        System.out.printf("%-30s%-20s%-20s%-35s%-20s%-20s%n","Farmer Type","Level Requirement","Earning/Buying",
+                "Water/Fertilizer bonus limits","Harvest time","Registration Fee");
+        for(RegisterFarmer register: RegisterFarmer.values())
+            System.out.printf("%-30s%-20s+/-%-17s+%-35s%-20s%-20s%n", register.getFarmerType(),register.getLevelRequirement(),
+                    register.getEarning(),register.getBonusLimits(),register.getHarvestTime(),register.getRegistrationFee());
     }
 }
 

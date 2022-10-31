@@ -28,29 +28,41 @@ public class Main {
     ));
 
     public static void main(String[] args) {
+        Tile gameTile;
+
         System.out.println("Welcome to MyFarm!");
 
-        /** CODE TO SHOW IN TERMINAL CROPS PLANTED*/
-        // instantiate the player
         FarmerDetails player = new FarmerDetails();
-        // create a new board
         Board gameBoard = new Board();
 
-        // print the board (key, value) in 10x5
-        for (int i = 1; i <= 50; i++) {
-            System.out.print(i + "\t[" + gameBoard.getTileStatus(i) + "]\t" );
-            if (i % 10 == 0) {
-                System.out.println();
+        while (true) {
+            // print the board (key, value) in 10x5
+            for (int i = 1; i <= 50; i++) {
+                System.out.print(i + "\t[" + gameBoard.getTileStatus(i) + "]\t" );
+                if (i % 10 == 0) {
+                    System.out.println();
+                }
+            }
+
+            // ask player to choose a tile
+            System.out.println("Choose a tile to view its details: ");
+            int tileNumber = input.nextInt();
+
+            // get the tile from the board using the tile number
+            gameTile = gameBoard.getTile(tileNumber);
+
+            // on the chosen tile print the details
+            System.out.println("Tile " + tileNumber + " details: ");
+
+            // print the tile details
+            System.out.println("Status: " + gameTile.getStatus());
+
+            // if the status not UNPLOWED, show the tile details
+            if (gameTile.getStatus() != TileStatus.UNPLOWED) {
+                System.out.println("Crop: " + gameTile.getCropName());
+
             }
         }
-
-        // ask player to choose a tile
-
-//        // loop through board and access the tile object
-//        for (int i = 1; i <= 50; i++) {
-//            // get the tile object
-//            Tile tile = gameBoard.getTiles().get(i);
-//        }
     }
 }
 

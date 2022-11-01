@@ -3,6 +3,7 @@ package myfarm;
 import myfarm.board.Board;
 import myfarm.board.Tile;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,29 +31,14 @@ public class Main {
 
     public static void main(String[] args) {
         Tile gameTile;
-
         System.out.println("Welcome to MyFarm!");
 
         FarmerDetails player = new FarmerDetails();
         Board gameBoard = new Board();
 
         while (true) {
-            // print the board (key, value) in 10x5
-            for (int i = 1; i <= 50; i++) {
-                System.out.print(i + "\t[" + gameBoard.getTileStatus(i) + "]\t");
-                if (i % 10 == 0) {
-                    System.out.println();
-                }
-            }
-
             //Prints out farmer's details
-            System.out.println();
-            System.out.println("FARMER DETAILS");
-            System.out.println("Experience: "+player.getExperience());
-            System.out.println("Level: "+player.getFarmerLevel());
-            System.out.println("Status: "+player.getFarmerStatus().getFarmerType());
-            System.out.println("Objectcoins: "+player.getObjectCoins());
-            System.out.println("Fertilizer count: "+player.getFertilizerCount());
+            player.displayFarmerDetails();
 
             //ask player to choose to which they should perform an action to
             System.out.println();
@@ -62,43 +48,130 @@ public class Main {
             int actionNumber=input.nextInt();
             input.nextLine();
             boolean validInput=true;
+            boolean tileContinue=true;
 
             while (validInput){
+
                if(actionNumber==1){
-                    validInput=false;
-                   // ask player to choose a tile
-                   System.out.println("Choose a tile to view its details: ");
-                   int tileNumber = input.nextInt();
-                   input.nextLine();
+                   while(tileContinue){
+                       gameBoard.displayBoard();
+                       validInput=false;
 
-                   // get the tile from the board using the tile number
-                   gameTile = gameBoard.getTile(tileNumber);
+                       // ask player to choose a tile
+                       System.out.println();
+                       System.out.println("Choose a tile to perform an action: ");
+                       int tileNumber = input.nextInt();
+                       input.nextLine();
 
-                   // on the chosen tile print the details
-                   System.out.println("Tile " + tileNumber + " details: ");
+                       // get the tile from the board using the tile number
+                       gameTile = gameBoard.getTile(tileNumber);
+                       int tileAction=0;
 
-                   // print the tile details
-                   System.out.println("Status: " + gameTile.getStatus());
+                       while(tileAction!=10){
+                           //ask player to choose which action to perform
+                           //will only show Plow action if tile is unplowed
+                           /**REMINDER: PUT CODE TO RESTRICT ACTION IF NOW SHOWN, INVALID IF NOT SHOWN*/
+                           System.out.println("TILE ACTIONS FOR TILE #"+tileNumber+":");
+                           if(gameTile.getStatus() == TileStatus.UNPLOWED){
+                               System.out.println("1-Plow tile");
+                           }
+                           else if((gameTile.getStatus() != TileStatus.UNPLOWED) && (gameTile.getStatus()!=TileStatus.PLANTED)){
+                               System.out.println("2 - Plant seed");
+                           }
+                           else if(gameTile.getStatus()==TileStatus.PLANTED){
+                               System.out.println("3 - Water");
+                               System.out.println("4 - Fertilize");
+                           }
+                           System.out.println("10-Exit");
+                           tileAction=input.nextInt();
+                           input.nextLine();
 
-                   // if the status not UNPLOWED, show the tile details
-                   if (gameTile.getStatus() != TileStatus.UNPLOWED) {
+                           if(tileAction==1){
+                               gameTile.setStatus(TileStatus.PLOWED);
+                               gameBoard.displayBoard();
+                               gameTile.displayTileDetails(tileNumber);
+                           }
+                           else if(tileAction==2){
+                               //display seeds that can be planted
+                               displaySeeds();
+                               System.out.println();
 
-                       //if without a plant yet,
-                           System.out.println("Do you want to plant a crop? Yes or No");
-                           //if yes, print out list of seeds to buy
-                            //action of buying
-                       //else
-                            //print out crop name
-                             System.out.println("Crop: " + gameTile.getCropName());
-                            //Water or Fertilize?
-                                //actions for water
-                                //actions for fertilize
+                               //asks user to input which seed to plant
+                               System.out.println("Choose which seed to plant: 1 - Turnip, 2 - Carrot, 3 - Rose, 4 - Stargazer");
+                               int seedChoice=input.nextInt();
+                               input.nextLine();
+
+                               //plants the seed chosen
+                               if(seedChoice==1){
+
+                                   //sets the tile status to planted
+                                   gameTile.setStatus(TileStatus.PLANTED);
+                                   gameTile.setCropName(seedList.get(0));
+
+                                   //prints the seed chosen and its cost, updates money and seed count
+                                   player.buySeeds(seedList.get(0));
+
+                               }
+                               else if(seedChoice==2){
+                                   //sets the tile status to planted
+                                   gameTile.setStatus(TileStatus.PLANTED);
+                                   gameTile.setCropName(seedList.get(1));
+
+                                   //prints the seed chosen and its cost, updates money and seed count
+                                   player.buySeeds(seedList.get(1));
+                               }
+                               else if(seedChoice==3){
+                                   //sets the tile status to planted
+                                   gameTile.setStatus(TileStatus.PLANTED);
+                                   gameTile.setCropName(seedList.get(2));
+
+                                   //prints the seed chosen and its cost, updates money and seed count
+                                   player.buySeeds(seedList.get(2));
+                               }
+                               else if(seedChoice==4){
+                                   //sets the tile status to planted
+                                   gameTile.setStatus(TileStatus.PLANTED);
+                                   gameTile.setCropName(seedList.get(3));
+
+                                   //prints the seed chosen and its cost, updates money and seed count
+                                   player.buySeeds(seedList.get(3));
+                               }
+                                gameBoard.displayBoard();
+                                gameTile.displayTileDetails(tileNumber);
+                           }
+                           else if(tileAction==3){
+                               //Water
+                               gameTile.setWaterLevel(gameTile.getCropName().getWaterBonus());
+                               gameTile.displayTileDetails(tileNumber);
+                           }
+                           else if(tileAction==4){
+                               //Fertilize
+                               if(player.getFertilizerCount()!=0){
+                                   gameTile.setFertilizerLevel(player,gameTile.getCropName().getFertilizerBonus());
+                                   gameTile.displayTileDetails(tileNumber);
+                               }
+                               else{
+                                   //Buy fertilizer
+                                   player.buyFertilizer();
+                               }
+
+                           }
+                       }
+
+                       System.out.println("Return to main menu? Y/N");
+                       String tileDecision=input.nextLine();
+                       if(tileDecision.equals("Y")||tileDecision.equals("y")){
+                           tileContinue=false;
+                       }
+                       else{
+                           tileContinue=true;
+                       }
                    }
                }
                else if(actionNumber==2){
                    /** CODE TO SHOW AND UPDATE FARMER'S TYPE*/
                    //display table of benefits of farmer types
-                   displayFarmerType();
+                   player.displayFarmerType();
 
                    //Change farmer's registry
                    //Checks eligibility for Honorable Farmer registration
@@ -201,15 +274,19 @@ public class Main {
         }
     }
 
-    public static void displayFarmerType(){
-        System.out.println();
-        System.out.printf("%-30s%-20s%-20s%-35s%-20s%-20s%n","Farmer Type","Level Requirement","Earning/Buying",
-                "Water/Fertilizer bonus limits","Harvest time","Registration Fee");
-        for(RegisterFarmer register: RegisterFarmer.values())
-            System.out.printf("%-30s%-20s+/-%-17s+%-35s%-20s%-20s%n", register.getFarmerType(),register.getLevelRequirement(),
-                    register.getEarning(),register.getBonusLimits(),register.getHarvestTime(),register.getRegistrationFee());
-        System.out.println();
+    //display seeds that can be planted
+    public static void displaySeeds() {
+        int counter = 1;
+        System.out.printf("%-20s%-20s%-20s%-30s%-40s%-20s%-30s%-20s%n", "Seed Name", "Crop Type", "Harvest Time(min)",
+                "Water Needed (Bonus Limit)", "Fertilizer Needed (Bonus Limit)", "Harvest Cost", "Max Product Produce", "Seed Cost");
+        for (Plants p : seedList) {
+            System.out.printf("%d. %-17s%-20s%-20s%-30s%-40s%-20s%-30s%-20s%n", counter,
+                    p.getName(), p.getType(), p.getHarvestTime(), p.getWaterBonus(),
+                    p.getFertilizerBonus(), p.getHarvestCost(), p.getMaxProduce(),
+                    p.getSeedCost());
+            counter++;
+        }
     }
 }
 
-// 1 - turnip, 2 carrot, 3 rose, 4 stargazer
+

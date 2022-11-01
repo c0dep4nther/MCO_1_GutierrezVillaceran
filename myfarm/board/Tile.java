@@ -1,5 +1,6 @@
 package myfarm.board;
 
+import myfarm.FarmerDetails;
 import myfarm.Plants;
 import myfarm.TileStatus;
 
@@ -86,8 +87,46 @@ public class Tile {
         this.harvestReady = harvestReady;
     }
 
+    public void setWaterLevel(int waterLimit) {
+        if(getWaterLevel()<waterLimit){
+            this.waterLevel++;
+        }
+        else{
+            System.out.println("WARNING: Reached water bonus limit!");
+            System.out.println();
+        }
+    }
+
+    public void setFertilizerLevel(FarmerDetails player,int fertilizerLimit) {
+        if(getFertilizerLevel()<fertilizerLimit){
+            player.setFertilizerCount(player.getFertilizerCount()-1);
+            this.fertilizerLevel++;
+        }
+        else{
+            System.out.println("WARNING: Reached fertilizer bonus limit!");
+            System.out.println();
+        }
+    }
+
     public void setCropName(Plants cropName) {
         this.cropName = cropName;
     }
 
+    public void setStatus(TileStatus status) {
+        this.status = status;
+    }
+
+    public void displayTileDetails(int tileNumber){
+        // on the chosen tile print the details
+        System.out.println("TILE " + tileNumber + " DETAILS: ");
+        // print the tile details
+        System.out.println("Status: " + getStatus());
+        if(getStatus()==TileStatus.PLANTED){
+            System.out.println("Crop planted: "+getCropName().getName());
+            System.out.println("Water level: "+getWaterLevel());
+            System.out.println("Fertilizer Level: "+getFertilizerLevel());
+        }
+
+        System.out.println();
+    }
 }

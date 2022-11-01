@@ -24,4 +24,20 @@ public class Board {
     public TileStatus getTileStatus(int tileNumber) {
         return tiles.get(tileNumber).getStatus();
     }
+
+    public void displayBoard(){
+        for (int i = 1; i <= 50; i++) {
+            if(getTileStatus(i)==TileStatus.PLANTED){
+                System.out.print(i + "\t[" + getTile(i).getCropName().getName() + "]\t");
+            }
+            else{
+                System.out.print(i + "\t[" + getTileStatus(i) + "]\t");
+            }
+
+            if (i % 10 == 0) {
+                System.out.println();
+            }
+        }
+        System.out.println();
+    }
 }

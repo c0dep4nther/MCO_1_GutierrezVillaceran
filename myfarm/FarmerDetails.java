@@ -14,6 +14,7 @@ public class FarmerDetails {
     private RegisterFarmer farmerStatus=RegisterFarmer.FARMER;
     private int experience=0;
 
+
     /**method to increase money and experience when harvesting*/
     public void harvestPlant(Plants plant, int numOfHarvest){
         int sellingPrice=0;

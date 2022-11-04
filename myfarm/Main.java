@@ -15,18 +15,10 @@ public class Main {
 
     // using a list to store the crops
     public static final List<Plants> seedList = new ArrayList<>(Arrays.asList(
-            new Plants("Turnip", "Vegetable", 1f,
-                    1, 0, 1,
-                    1, 5, 6),
-            new Plants("Carrot", "Vegetable", 1.5f,
-                    1, 0, 1,
-                    2, 10, 9),
-            new Plants("Rose", "Flower", 2.5f,
-                    1, 0, 1,
-                    3, 15, 12),
-            new Plants("Stargazer", "Flower", 2.5f,
-                    2, 0, 2,
-                    1, 10, 9)
+            new Plants("Turnip", "Root crop", 2,1,0,1,2,5,6,5f),
+            new Plants("Carrot","Root crop",3,1,0,1,2,10,9,7.5f),
+            new Plants("Rose","Flower",1,1,0,1,1,5,5,2.5f),
+            new Plants("Tulips","Flower",2,2,0,1,1,10,9,5)
     ));
 
     public static void main(String[] args) {
@@ -277,13 +269,12 @@ public class Main {
     //display seeds that can be planted
     public static void displaySeeds() {
         int counter = 1;
-        System.out.printf("%-20s%-20s%-20s%-30s%-40s%-20s%-30s%-20s%n", "Seed Name", "Crop Type", "Harvest Time(min)",
-                "Water Needed (Bonus Limit)", "Fertilizer Needed (Bonus Limit)", "Harvest Cost", "Max Product Produce", "Seed Cost");
+        System.out.printf("%-20s%-20s%-20s%-30s%-40s%-20s%-20s%-20s%-20s%n", "Seed Name", "Crop Type", "Harvest Time(days)",
+                "Water Needed (Bonus Limit)", "Fertilizer Needed (Bonus Limit)", "Products Produced", "Seed Cost","Selling Price","Experience Yield");
         for (Plants p : seedList) {
-            System.out.printf("%d. %-17s%-20s%-20s%-30s%-40s%-20s%-30s%-20s%n", counter,
-                    p.getName(), p.getType(), p.getHarvestTime(), p.getWaterBonus(),
-                    p.getFertilizerBonus(), p.getHarvestCost(), p.getMaxProduce(),
-                    p.getSeedCost());
+            System.out.printf("%d. %-17s%-20s%-20s%s(%s)%27s(%s)%37s-%-18s%-20s%-20s%-20s%n",
+                    counter,p.getName(),p.getType(),p.getHarvestTime(),p.getWaterNeeded(),p.getWaterBonus(),
+                    p.getFertilizerNeeded(),p.getFertilizerBonus(),p.getMinProduce(),p.getMaxProduce(),p.getSeedCost(),p.getSellPrice(),p.getSeedCost(),p.getExpYield());
             counter++;
         }
     }

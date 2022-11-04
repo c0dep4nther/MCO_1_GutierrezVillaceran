@@ -14,6 +14,11 @@ public class Tile {
     private Plants cropType;
     private int waterLevel;
     private int fertilizerLevel;
+    private int randomProd;
+    private float harvestTotal;
+    private float waterBonus;
+    private float fertilizerBonus;
+    private float finalHarvestPrice;
 
     // tile constructor
     public Tile() {
@@ -70,7 +75,27 @@ public class Tile {
         return fertilizerLevel;
     }
 
-//    setters
+    public int getRandomProd() {
+        return randomProd;
+    }
+
+    public float getHarvestTotal() {
+        return harvestTotal;
+    }
+
+    public float getWaterBonus() {
+        return waterBonus;
+    }
+
+    public float getFertilizerBonus() {
+        return fertilizerBonus;
+    }
+
+    public float getFinalHarvestPrice() {
+        return finalHarvestPrice;
+    }
+
+    //    setters
     public void setPlowed(boolean plowed) {
         isPlowed = plowed;
     }
@@ -116,6 +141,26 @@ public class Tile {
         this.status = status;
     }
 
+    public void setRandomProd(Plants p) {
+        this.randomProd =(int)Math.floor(Math.random()*(p.getMaxProduce()-p.getMinProduce()+1)+ p.getMinProduce());
+    }
+
+    public void setHarvestTotal(FarmerDetails player, Plants p) {
+        this.harvestTotal =getRandomProd()*(p.getSellPrice()+player.getFarmerStatus().getEarning());
+    }
+
+    public void setWaterBonus() {
+        this.waterBonus = getHarvestTotal()*0.2f*(getWaterLevel()-1);
+    }
+
+    public void setFertilizerBonus() {
+        this.fertilizerBonus = getHarvestTotal()*0.5f*getFertilizerLevel();
+    }
+
+    public void setFinalHarvestPrice(float finalHarvestPrice) {
+        this.finalHarvestPrice = getHarvestTotal()+getWaterBonus()+getFertilizerBonus();
+    }
+
     public void displayTileDetails(int tileNumber){
         // on the chosen tile print the details
         System.out.println("TILE " + tileNumber + " DETAILS: ");
@@ -129,4 +174,5 @@ public class Tile {
 
         System.out.println();
     }
+
 }

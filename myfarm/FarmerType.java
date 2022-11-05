@@ -23,7 +23,9 @@ public enum FarmerType {
     private final int fertilizerBL;
     private final int registrationFee;
 
-    FarmerType(String farmerType, int levelRequirement, int bonusEarn, int seedDiscount, int waterBL, int fertilizerBL, int registrationFee) {
+    FarmerType(String farmerType, int levelRequirement, int bonusEarn,
+               int seedDiscount, int waterBL, int fertilizerBL,
+               int registrationFee) {
         this.farmerType = farmerType;
         this.levelRequirement = levelRequirement;
         this.bonusEarn = bonusEarn;

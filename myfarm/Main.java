@@ -27,19 +27,31 @@ public class Main {
         Board farmLand = new Board();
         Farmer player = new Farmer();
         int seedChoice;
+        int playerLevel;
+        float playerExp;
+        float playerMoney;
         Scanner input = new Scanner(System.in);
         String action;
-
-        farmLand.displayBoard();
 
         // ask player on what action to do
         // P plant H harvest W water PL plow S sleep Q quit
         while (isRunning) {
+            playerLevel = player.getLevel();
+            playerExp = player.getTotalExp();
+            playerMoney = player.getMoney();
+
+            System.out.println("Day: " + farmLand.getDayCount()
+                    + "\t\tMoney: " + playerMoney);
+            System.out.println("Level: " + playerLevel
+                    + "\tExp: " + playerExp);
+            farmLand.displayBoard();
+
             System.out.println("It is day " + farmLand.getDayCount() + ". What would you like to do?");
             System.out.println("[P] Plant \t[H] Harvest");
             System.out.println("[W] Water \t[PL] Plow");
             System.out.println("[E] Sleep \t[Q] Quit");
             action = input.nextLine().toUpperCase();
+
             switch (action) {
                 case "P" -> {
                     System.out.println("What would you like to plant?");
@@ -50,12 +62,10 @@ public class Main {
                     System.out.println("Where would you like to plant it?");
                     farmLand = player.plantSeed(seedList.get(seedChoice), farmLand);
                 }
-                // TODO: complete harvest feature
-//                case "H" -> {
-//                    System.out.println("Which tile would you like to harvest?");
-//                    int tile = player.getTile();
-//                    farmLand.getTile(tile).harvest();
-//                }
+                case "H" -> {
+                    System.out.println("Which tile would you like to harvest?");
+                    farmLand = player.harvestPlant(farmLand);
+                }
                 case "W" -> {
                     System.out.println("Which tile would you like to water?");
                     farmLand = player.useTool(toolInventory.get(action), farmLand);
@@ -74,7 +84,6 @@ public class Main {
                 }
                 default -> System.out.println("Invalid input.");
             }
-            farmLand.displayBoard();
         }
     }
 }

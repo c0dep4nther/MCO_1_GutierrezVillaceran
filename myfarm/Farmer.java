@@ -3,13 +3,27 @@ package myfarm;
 import myfarm.board.Board;
 import myfarm.board.Tile;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Farmer {
     private float exp = 0;
+    private float totalExp;
+    private float money = 100;
     private int level = 1;
-    private int money = 100;
     private FarmerType type = FarmerType.FARMER;
+
+    private void levelUp() {
+        // add for total exp
+        totalExp += exp;
+
+        // for every 100 exp, level up
+        if (exp >= 100) {
+            level++;
+            exp -= 100;
+            System.out.println("You leveled up to level " + level + "!");
+        }
+    }
 
     public Board useTool(Tool object, Board farmLand) {
         Scanner input = new Scanner(System.in);
@@ -22,6 +36,7 @@ public class Farmer {
 
         // set status to board
         farmLand.getTile(tileNumber).setStatus(farmLot.getStatus());
+        levelUp();
 
         System.out.println("Press enter to continue...");
         input.nextLine();
@@ -43,6 +58,7 @@ public class Farmer {
             farmLot.setStatus(TileStatus.PLANTED);
             farmLot.setHarvestDate(dayCount, harvestTime);
             money -= seed.getSeedCost();
+            farmLand.getTile(tileNumber).setCrop(seed);
             System.out.println("You planted " + seed.getName() + " which costs " + seed.getSeedCost() + " Objectcoins.");
             System.out.println("Harvest is in " + harvestTime + " days.");
         } else {
@@ -56,26 +72,77 @@ public class Farmer {
         return farmLand;
     }
 
-    // TODO: finalize method for harvesting
     public Board harvestPlant(Board farmLand) {
         Scanner input = new Scanner(System.in);
-        int dayCount = farmLand.getDayCount();
         int tileNumber = input.nextInt();
         Tile farmLot = farmLand.getTile(tileNumber);
+        TileStatus status = farmLot.getStatus();
+        String cropName = farmLot.getCrop().getName();
+        String cropType = farmLot.getCrop().getType();
+        int waterLevel = farmLot.getWaterLevel();
+        int waterBL = farmLot.getCrop().getWaterBL() +
+                type.getWaterBL();
+        int fertilizerLevel = farmLot.getFertilizerLevel();
+        int fertilizerBL = farmLot.getCrop().getFertilizerBL() +
+                type.getFertilizerBL();
+        int maxProduce = farmLot.getCrop().getMaxProduce();
+        int minProduce = farmLot.getCrop().getMinProduce();
+        int totalProduce;
+        int sellPrice = farmLot.getCrop().getSellPrice();
+        float harvestTotal;
+        float waterBonus;
+        float fertilizerBonus;
+        float finalPrice;
 
-        // if tile is planted and harvest date is reached, harvest plant
-        if (farmLot.getStatus() == TileStatus.PLANTED && farmLot.getHarvestDate() == dayCount) {
-            money += farmLot.getCrop().getSellPrice();
-            System.out.println("You harvested " + farmLot.getCrop().getName() + " and sold it for " + farmLot.getCrop().getSellPrice() + " Objectcoins.");
-            farmLot.setStatus(TileStatus.PLOWED);
+        // if tile is harvestable, harvest plant
+        if (status == TileStatus.HARVESTABLE) {
+            // cap water and fertilizer levels based on crop's water and fertilizer BL
+            if (waterLevel > waterBL) {
+                waterLevel = waterBL;
+            }
+            if (fertilizerLevel > fertilizerBL) {
+                fertilizerLevel = fertilizerBL;
+            }
+
+            // using RNG, calculate the amount of produce harvested
+            totalProduce = (int) (Math.random() *
+                    (maxProduce - minProduce + 1) + minProduce);
+
+            harvestTotal = totalProduce * (sellPrice + type.getBonusEarn());
+            waterBonus = (float) (0.2 * (waterLevel - 1));
+            fertilizerBonus = harvestTotal * (float) (0.5 * fertilizerLevel);
+            finalPrice = harvestTotal + waterBonus + fertilizerBonus;
+
+            if (Objects.equals(cropType, "Flower")) {
+                finalPrice *= 1.1f;
+            }
+            money += finalPrice;
+            exp += farmLot.getCrop().getExpGain();
+
+            System.out.println("You harvested " + cropName + " and sold it for " + finalPrice + " Objectcoins.");
+            farmLot.setStatus(TileStatus.UNPLOWED);
         } else {
             System.out.println("You can't harvest a plant that isn't planted or isn't ready to be harvested.");
         }
+        levelUp();
 
         System.out.println("Press enter to continue...");
         input.nextLine();
         input.nextLine();
 
         return farmLand;
+    }
+
+    // getters
+    public float getTotalExp() {
+        return totalExp;
+    }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

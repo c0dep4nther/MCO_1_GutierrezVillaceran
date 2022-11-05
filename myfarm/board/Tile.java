@@ -67,5 +67,7 @@ public class Tile {
 
     public void setCrop(Plant crop) {
         this.crop = crop;
+        this.cropName = crop.getName();
+        this.cropType = crop.getType();
     }
 }

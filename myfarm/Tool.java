@@ -8,12 +8,22 @@ public class Tool {
     private final int cost;
     private final float expGain;
 
+    /**
+     *
+     * @param name name of tool
+     * @param cost cost of tool
+     * @param expGain experience gained by using tool
+     */
     public Tool(String name, int cost, float expGain) {
         this.name = name;
         this.cost = cost;
         this.expGain = expGain;
     }
 
+    /**
+     * @param farmLot tile performed action on
+     * @return tile
+     */
     public Tile toolAction (Tile farmLot) {
         switch (name) {
             case "Watering Can" -> {
@@ -29,10 +39,18 @@ public class Tool {
         return farmLot;
     }
 
+    /**
+     *
+     * @return name of tool
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return experience gained by using tool
+     */
     public float getExpGain() {
         return expGain;
     }

@@ -10,13 +10,18 @@ public class Board {
     private final HashMap<Integer, Tile> tiles = new HashMap<>();
     private int dayCount = 1;
 
-    // board constructor
+    /**
+     * constructs board
+     */
     public Board() {
         for (int count = 1; count <= 50; count++) {
             tiles.put(count, new Tile());
         }
     }
 
+    /**
+     * checks if plant has withered or can be harvested
+     */
     public void endDay() {
         Scanner input = new Scanner(System.in);
         boolean wither = false;
@@ -69,19 +74,33 @@ public class Board {
         }
     }
 
-    //method to access the tile value
+    /**
+     * @param tileNumber number of tile
+     * @return access the tile value
+     */
     public Tile getTile(int tileNumber) {
         return tiles.get(tileNumber);
     }
 
+    /**
+     *
+     * @param tileNumber number of tile
+     * @return access tile status
+     */
     public TileStatus getTileStatus(int tileNumber) {
         return tiles.get(tileNumber).getStatus();
     }
 
+    /**
+     * @return day number/count
+     */
     public int getDayCount() {
         return dayCount;
     }
 
+    /**
+     * displays board with status
+     */
     public void displayBoard() {
         for (int i = 1; i <= 50; i++) {
             if (getTileStatus(i)==TileStatus.PLANTED){

@@ -13,6 +13,9 @@ public class Farmer {
     private int level = 1;
     private FarmerType type = FarmerType.FARMER;
 
+    /**
+     * increase level of farmer
+     */
     private void levelUp() {
         // add for total exp
         totalExp += exp;
@@ -25,6 +28,12 @@ public class Farmer {
         }
     }
 
+    /**
+     *
+     * @param object tool used
+     * @param farmLand initialized board
+     * @return updated board
+     */
     public Board useTool(Tool object, Board farmLand) {
         Scanner input = new Scanner(System.in);
         int tileNumber = input.nextInt();
@@ -45,6 +54,12 @@ public class Farmer {
         return farmLand;
     }
 
+    /**
+     * Planting of seeds
+     * @param seed plant information
+     * @param farmLand board
+     * @return updated board
+     */
     public Board plantSeed(Plant seed,  Board farmLand) {
         Scanner input = new Scanner(System.in);
         int dayCount = farmLand.getDayCount();
@@ -72,6 +87,11 @@ public class Farmer {
         return farmLand;
     }
 
+    /**
+     *
+     * @param farmLand board
+     * @return updated board
+     */
     public Board harvestPlant(Board farmLand) {
         Scanner input = new Scanner(System.in);
         int tileNumber = input.nextInt();
@@ -119,7 +139,7 @@ public class Farmer {
             money += finalPrice;
             exp += farmLot.getCrop().getExpGain();
 
-            System.out.println("You harvested " + cropName + " and sold it for " + finalPrice + " Objectcoins.");
+            System.out.println("You harvested " +totalProduce+ " "+ cropName + " and sold it for " + finalPrice + " Objectcoins.");
             farmLot.setStatus(TileStatus.UNPLOWED);
         } else {
             System.out.println("You can't harvest a plant that isn't planted or isn't ready to be harvested.");
@@ -134,14 +154,27 @@ public class Farmer {
     }
 
     // getters
+
+    /**
+     *
+     * @return experience of player
+     */
     public float getTotalExp() {
         return totalExp;
     }
 
+    /**
+     *
+     * @return objectCoins
+     */
     public float getMoney() {
         return money;
     }
 
+    /**
+     *
+     * @return player's level
+     */
     public int getLevel() {
         return level;
     }

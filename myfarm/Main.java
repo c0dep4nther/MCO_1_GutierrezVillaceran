@@ -6,12 +6,18 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
+    /**
+     * creates watering and plowing actions in tool inventory
+     */
     public static final HashMap<String, Tool> toolInventory = new HashMap<>();
     static {
         toolInventory.put("W", new Tool("Watering Can", 0, 0.5f));
         toolInventory.put("PL", new Tool("Plow", 0, 0.5f));
     }
 
+    /**
+     * initializes seeds of plants
+     */
     public static final HashMap<Integer, Plant> seedList = new HashMap<>();
     static {
         seedList.put(1, new Plant("Turnip", "Root Crop", 2,
@@ -21,7 +27,10 @@ public class Main {
                 1,2,0,1,2, 1,
                 10, 9, 7.5f));
     }
-
+    /**
+     *  asks player on what action to do
+     *  P for plant, H for harvest, W for water, PL for plow, E for sleep, Q quit
+     */
     public static void main(String[] args) {
         boolean isRunning = true;
         Board farmLand = new Board();
@@ -33,8 +42,6 @@ public class Main {
         Scanner input = new Scanner(System.in);
         String action;
 
-        // ask player on what action to do
-        // P plant H harvest W water PL plow S sleep Q quit
         while (isRunning) {
             playerLevel = player.getLevel();
             playerExp = player.getTotalExp();
@@ -58,6 +65,7 @@ public class Main {
                     System.out.println("[1] Turnip");
                     System.out.println("[2] Carrot");
                     seedChoice = input.nextInt();
+                    input.nextLine();
 
                     System.out.println("Where would you like to plant it?");
                     farmLand = player.plantSeed(seedList.get(seedChoice), farmLand);

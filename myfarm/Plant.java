@@ -14,6 +14,21 @@ public class Plant {
     private final int sellPrice;
     private final float expGain;
 
+    /**
+     *
+     * @param name  name of plant
+     * @param type  type of plant
+     * @param harvestTime   harvest time of plant
+     * @param waterNeed amount of water needed by plant
+     * @param waterBL   bonus limit of plant
+     * @param fertilizerNeed    amount of fertilizer needed by plant
+     * @param fertilizerBL fertilizer limit of plant
+     * @param maxProduce    maximum crop produced by plant
+     * @param minProduce    minimum crop produce by plant
+     * @param seedCost  cost of buying seed
+     * @param sellPrice price of selling crop
+     * @param expGain   experience gained per crop
+     */
     public Plant(String name, String type, int harvestTime,
                  int waterNeed, int waterBL, int fertilizerNeed, int fertilizerBL, int maxProduce,
                  int minProduce, int seedCost, int sellPrice,
@@ -33,50 +48,95 @@ public class Plant {
     }
 
     // getters
+
+    /**
+     * @return name of plant
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return type of plant
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * @return harvest time of plant
+     */
     public int getHarvestTime() {
         return harvestTime;
     }
 
+    /**
+     * @return amount of water needed by plant
+     */
     public int getWaterNeed() {
         return waterNeed;
     }
 
+    /**
+     *
+     * @return water bonus limit
+     */
     public int getWaterBL() {
         return waterBL;
     }
 
+    /**
+     *
+     * @return amount of fertilizer needed by plant
+     */
     public int getFertilizerNeed() {
         return fertilizerNeed;
     }
 
+    /**
+     *
+     * @return fertilizer bonus limit
+     */
     public int getFertilizerBL() {
         return fertilizerBL;
     }
 
+    /**
+     *
+     * @return maximum crop produce of plant
+     */
     public int getMaxProduce() {
         return maxProduce;
     }
 
+    /**
+     *
+     * @return minimum crop produce by plant
+     */
     public int getMinProduce() {
         return minProduce;
     }
+
+    /**
+     *
+     * @return cost of buying seed
+     */
 
     public int getSeedCost() {
         return seedCost;
     }
 
+    /**
+     *
+     * @return price of selling crop
+     */
     public int getSellPrice() {
         return sellPrice;
     }
 
+    /**
+     * @return experience gained per crop
+     */
     public float getExpGain() {
         return expGain;
     }

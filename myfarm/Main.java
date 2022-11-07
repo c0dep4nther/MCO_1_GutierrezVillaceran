@@ -67,6 +67,13 @@ public class Main {
                     seedChoice = input.nextInt();
                     input.nextLine();
 
+                    // protect input from out of bounds
+                    while (seedChoice < 1 || seedChoice > 2) {
+                        System.out.println("Please enter a valid seed number.");
+                        seedChoice = input.nextInt();
+                        input.nextLine();
+                    }
+
                     System.out.println("Where would you like to plant it?");
                     farmLand = player.plantSeed(seedList.get(seedChoice), farmLand);
                 }

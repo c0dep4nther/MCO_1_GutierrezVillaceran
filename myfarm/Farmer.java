@@ -37,7 +37,15 @@ public class Farmer {
     public Board useTool(Tool object, Board farmLand) {
         Scanner input = new Scanner(System.in);
         int tileNumber = input.nextInt();
-        Tile farmLot = farmLand.getTile(tileNumber);
+        Tile farmLot;
+
+        // protect input from out of bounds
+        while (tileNumber < 1 || tileNumber > 50) {
+            System.out.println("Please enter a valid tile number.");
+            tileNumber = input.nextInt();
+        }
+
+        farmLot = farmLand.getTile(tileNumber);
 
         System.out.println("Using " + object.getName() + "...");
         object.toolAction(farmLot);
@@ -65,7 +73,15 @@ public class Farmer {
         int dayCount = farmLand.getDayCount();
         int harvestTime = seed.getHarvestTime();
         int tileNumber = input.nextInt();
-        Tile farmLot = farmLand.getTile(tileNumber);
+        Tile farmLot;
+
+        // protect input from out of bounds
+        while (tileNumber < 1 || tileNumber > 50) {
+            System.out.println("Please enter a valid tile number.");
+            tileNumber = input.nextInt();
+        }
+
+        farmLot = farmLand.getTile(tileNumber);
 
         // if tile is plowed and empty, plant seed
         if (farmLot.getStatus() == TileStatus.PLOWED) {

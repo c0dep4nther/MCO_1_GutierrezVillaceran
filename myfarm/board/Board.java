@@ -48,6 +48,14 @@ public class Board {
                 cropStatus = farmLot.getStatus();
                 harvestDate = farmLot.getHarvestDate();
 
+                // if crop is still not harvested, it withers next day
+                if (cropStatus == TileStatus.HARVESTABLE) {
+                    farmLot.setStatus(TileStatus.WITHERED);
+                    wither = true;
+                    witherCount++;
+                }
+
+                // if crop's needs are met before harvest day, crop is harvestable
                 if (cropStatus == TileStatus.PLANTED && harvestDate == dayCount) {
                     // check if water and fertilizer needed is met
                     if (waterLevel >= waterNeed && fertilizerLevel >= fertilizerNeed) {
@@ -67,11 +75,10 @@ public class Board {
             } else {
                 System.out.println(witherCount + " crops have withered.");
             }
-
-            System.out.println("Press enter to continue.");
-            input.nextLine();
-            input.nextLine();
         }
+        System.out.println("Press enter to continue.");
+        input.nextLine();
+        input.nextLine();
     }
 
     /**
